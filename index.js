@@ -3,38 +3,33 @@ var http = require('http');
 var Color = require('colors');
 var path = require('path');
 
+var MIME_TYPES = {
+    ".html": "text/html",
+    ".css": "text/css",
+    ".jpeg": "image/jpeg"
+}
+
 var server = http.createServer(function (req, res) {
 
     var file = null;
     var fileName = null;
 
     if (req.url === "/" || req.url === "/index.html") {
-        fileName = "index.html";
-        file = fs.createReadStream(path.join(__dirname, fileName));
-        res.writeHead(200, {
-            "Conteent-Type": "text/html"
-        });
-        file.pipe(res);
+        responseToClient('/index.html', 200);
     } else if (req.url === '/css/style.css') {
-        fileName = req.url.slice(1);
-        file = fs.createReadStream(path.join(__dirname, fileName));
-        res.writeHead(200, {
-            "Content-Type": "text/css"
-        });
-        file.pipe(res);
+        responseToClient(req.url, 200);
     } else if (req.url === "/images/friend.jpeg") {
-        fileName = req.url.slice(1);
-        file = fs.createReadStream(path.join(__dirname, fileName));
-        res.writeHead(200, {"Content-Type": "image/jpeg"});
-        file.pipe(res);
+        responseToClient(req.url, 200);
     } else {
-        file = fs.createReadStream(path.join(__dirname, 'images', "404.jpeg"));
-        res.writeHead(404, {
-            "Content-Type": "image/jpeg"
-        });
-        file.pipe(res);
+        responseToClient("/images/404.jpeg", 404)
     }
 
+    function responseToClient(url, status) {
+        fileName = url.slice(1);
+        file = fs.createReadStream(path.join(__dirname, fileName));
+        res.writeHead(status, {"Content-Type": MIME_TYPES[path.extname(fileName)]});
+        file.pipe(res);
+    }
 
 });
 

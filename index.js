@@ -11,9 +11,6 @@ var MIME_TYPES = {
 
 var server = http.createServer(function (req, res) {
 
-    var file = null;
-    var fileName = null;
-
     if (req.url === "/" || req.url === "/index.html") {
         responseToClient('/index.html', 200);
     } else if (req.url === '/css/style.css') {
@@ -25,8 +22,8 @@ var server = http.createServer(function (req, res) {
     }
 
     function responseToClient(url, status) {
-        fileName = url.slice(1);
-        file = fs.createReadStream(path.join(__dirname, fileName));
+        var fileName = url.slice(1);
+        var file = fs.createReadStream(path.join(__dirname, fileName));
         res.writeHead(status, {"Content-Type": MIME_TYPES[path.extname(fileName)]});
         file.pipe(res);
     }

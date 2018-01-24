@@ -22,7 +22,7 @@ var server = http.createServer(function (req, res) {
             "Content-Type": "text/css"
         });
         file.pipe(res);
-    } else if (req.url === "/images/baseball.jpeg") {
+    } else if (req.url === "/images/friend.jpeg") {
         fileName = req.url.slice(1);
         file = fs.createReadStream(path.join(__dirname, fileName));
         res.writeHead(200, {"Content-Type": "image/jpeg"});

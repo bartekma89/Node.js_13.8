@@ -13,10 +13,12 @@ var server = http.createServer(function (req, res) {
 
     if (req.url === "/" || req.url === "/index.html") {
         responseToClient('/index.html', 200);
-    } else if(req.statusCode === 404){
-        responseToClient("/images/404.jpeg", 404)
-    } else {
+    } else if (req.url === "/css/style.css") {
         responseToClient(req.url, 200);
+    } else if (req.url === "/images/friend.jpeg") {
+        responseToClient(req.url, 200);
+    } else {
+        responseToClient("/images/404.jpeg", 404);
     }
 
     function responseToClient(url, status) {
@@ -27,7 +29,6 @@ var server = http.createServer(function (req, res) {
         });
         file.pipe(res);
     }
-
 });
 
 server.listen(8000, function () {

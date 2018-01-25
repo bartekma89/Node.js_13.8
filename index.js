@@ -15,8 +15,8 @@ var server = http.createServer(function (req, res) {
         responseToClient('/index.html', 200);
     } else if (req.url === "/css/style.css") {
         responseToClient(req.url, 200);
-    } else if (req.url === "/images/friend.jpeg") {
-        responseToClient(req.url, 200);
+    } else if (req.url === "/picture") {
+        responseToClient('/images/friend.jpeg', 200);
     } else {
         responseToClient("/images/404.jpeg", 404);
     }
